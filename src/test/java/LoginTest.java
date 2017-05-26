@@ -1,6 +1,10 @@
+import jdk.management.resource.internal.inst.StaticInstrumentation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+
+import java.util.NoSuchElementException;
 
 import static java.lang.Thread.sleep;
 
@@ -24,7 +28,11 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        Assert.assertEquals("Shotspotter", webDriver.getTitle());
+        Assert.assertEquals(webDriver.findElement(By.xpath("//*[@class='close-up footer-button']")).getText(), "CLOSE UP");
+        webDriver.findElement(By.xpath("//*[@class='settings']"));
+
         webDriver.quit();
     }
-
-    }
+}
