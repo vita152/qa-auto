@@ -40,14 +40,35 @@ public class LoginTest {
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://alerts.shotspotter.biz/",
                             "Wrong URL on Login page");
 
-        MainPage mainPage = loginPage.LoginAs("denvert1@shotspotter.net","Test123!");
+        loginPage.LoginAs("denvert1@shotspotter.net","Test123!");
 
+        MainPage mainPage = new MainPage(webDriver);
         mainPage.isPageLoaded();
+
         Assert.assertEquals(webDriver.getTitle(), "Shotspotter",
                             "Main page title is wrong");
         Assert.assertTrue(webDriver.getCurrentUrl().contains("https://alerts.shotspotter.biz/main"),
                             "Wrong URL on Main page");
         Assert.assertTrue(mainPage.isPageLoaded(),
                             "Setting Icon is not displayed");
+    }
+
+    @Test
+    public void testLoginNegativ(){
+        LoginPage loginPage = new LoginPage(webDriver);
+        Assert.assertEquals(webDriver.getTitle(), "Shotspotter - Login",
+                "Login page title is wrong");
+        Assert.assertEquals(webDriver.getCurrentUrl(), "https://alerts.shotspotter.biz/",
+                "Login URL on Login page");
+        loginPage.LoginAs("denvert1@shotspotter.net","Test");
+
+        loginPage.isPageLoaded();
+        Assert.assertEquals(webDriver.getTitle(), "Shotspotter - Login",
+                "Login page title is wrong");
+        Assert.assertTrue(webDriver.getCurrentUrl().contains("https://alerts.shotspotter.biz/"),
+                "Login URL on Main page");
+        Assert.assertTrue(loginPage.isPageLoaded(), " linksField is not displayed");
+       Assert.assertEquals(loginPage.f().getText(),
+                "The provided credentials are not correct.", "Invalid Text not correct");
     }
 }
