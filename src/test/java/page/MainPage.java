@@ -9,31 +9,18 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by QA on 30.05.2017.
  */
-public class MainPage {
-    private WebDriver webDriver;
+public class MainPage  extends BasePage {
 
     @FindBy(className="settings")
     private WebElement settingIcon;
 
 
-    public MainPage (WebDriver webDriver){
+    public MainPage (WebDriver webDriver) {
+        super(webDriver);
         PageFactory.initElements(webDriver, this);
-        this.webDriver = webDriver;
     }
 
     public boolean isPageLoaded() {
         return settingIcon.isDisplayed();
-    }
-
-    public void setSettingIcon(WebElement settingIcon) {
-        this.settingIcon = settingIcon;
-    }
-
-    public WebDriver getWebDriver() {
-        return webDriver;
-    }
-
-    public void setWebDriver(WebDriver webDriver) {
-        this.webDriver = webDriver;
     }
 }

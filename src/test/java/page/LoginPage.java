@@ -13,40 +13,25 @@ import static java.lang.Thread.sleep;
 /**
  * Created by UI дизайн on 27.05.2017.
  */
-public class LoginPage {
+public class LoginPage extends BasePage {
 
-    private WebDriver webDriver;
     @FindBy(xpath="//input[@type='email']")
     private WebElement emailField;
     @FindBy (xpath="//input[@type='password']")
     private WebElement passwordField;
     @FindBy (xpath="//*[@class='button' and text()='GO']")
     private WebElement goButton;
-    @FindBy (xpath="//*[@class='links']")
-    private WebElement linksField;
     @FindBy (xpath="//*[@class='invalid-credentials']")
-    private WebElement invalidCredential;
+    private WebElement invalidCredentialsErrorMsg;
 
-  //  private void InitLoginPageWebElement(){
-      // emailField = webDriver.findElement(By.xpath("//input[@type='email']"));
-       //passwordField = webDriver.findElement(By.xpath("//input[@type='password']"));
-      // goButton = webDriver.findElement(By.xpath("//*[@class='button' and text()='GO']"));
-     //  linksField = webDriver.findElement(By.xpath("//*[@class='links']"));
-   // }
-
-    public LoginPage(final WebDriver webDriver){
+    public LoginPage(WebDriver webDriver){
+        super(webDriver);
         PageFactory.initElements(webDriver, this);
-        this.webDriver = webDriver;
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-     //  InitLoginPageWebElement();
+        waitUntilElementDisplaued(goButton, 5);
     }
 
-    public void  LoginAs (String userEmail, String userPassword){
+    public MainPage  LoginAs (String userEmail, String userPassword){
         emailField.sendKeys(userEmail);
         passwordField.sendKeys(userPassword);
         goButton.click();
@@ -55,43 +40,29 @@ public class LoginPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-       // return new MainPage(webDriver);
+        return new MainPage(webDriver);
+    }
+    public LoginPage  LoginAsReturtToLogin (String userEmail, String userPassword){
+        emailField.sendKeys(userEmail);
+        passwordField.sendKeys(userPassword);
+        goButton.click();
+        try {
+            sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 
     public boolean isPageLoaded(){
-        return linksField.isDisplayed();
+        return emailField.isDisplayed();
     }
 
-    public WebElement f (){
-      //invalidCredential = webDriver.findElement(By.xpath("//*[@class='invalid-credentials']"));
-      return invalidCredential;
+    public boolean  invalidCredentialsMsgDisplayed (){
+        return invalidCredentialsErrorMsg.isDisplayed();
     }
 
-    public WebDriver getWebDriver() {
-        return webDriver;
+    public  String getErrormsgText (){
+        return invalidCredentialsErrorMsg.getText();
     }
-
-    public void setWebDriver(WebDriver webDriver) {
-        this.webDriver = webDriver;
-    }
-
-    public void setEmailField(WebElement emailField) {
-        this.emailField = emailField;
-    }
-
-    public void setPasswordField(WebElement passwordField) {
-        this.passwordField = passwordField;
-    }
-
-    public void setGoButton(WebElement goButton) {
-        this.goButton = goButton;
-    }
-
-    public void setLinksField(WebElement linksField) {
-        this.linksField = linksField;
-    }
-
-    public void setInvalidCredential(WebElement invalidCredential) {
-        this.invalidCredential = invalidCredential;
-    }
-}
+ }
