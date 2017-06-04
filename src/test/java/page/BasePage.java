@@ -24,8 +24,10 @@ public class BasePage {
     public String getPageTitle() {
         return  webDriver.getTitle();
     }
+
  public WebElement waitUntilElementDisplaued (WebElement element, int timeout){
      WebDriverWait wait = new WebDriverWait(webDriver, timeout);
      return wait.until(ExpectedConditions.visibilityOf(element));
  }
+
 }

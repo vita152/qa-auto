@@ -12,7 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 public class MainPage  extends BasePage {
 
     @FindBy(className="settings")
-    private WebElement settingIcon;
+    public WebElement settingIcon;
 
 
     public MainPage (WebDriver webDriver) {
