@@ -20,11 +20,11 @@ import static java.lang.Thread.sleep;
  */
 public class LoginTest {
 
-    public WebDriver webDriver; // объявление переменной
+    public WebDriver webDriver;
 
-    @BeforeMethod    //BeforeTest  не отрабатывает, по этому BeforeMethod
+    @BeforeMethod
     public void beforeClass(){
-       webDriver = new FirefoxDriver(); // создаем новый объект static - только один, плохо - влияет на скорость, не откроется 2 браузера или 2 вкладки
+       webDriver = new FirefoxDriver();
        }
 
     @AfterMethod
@@ -35,23 +35,30 @@ public class LoginTest {
 
     @Test
     public void testLoginPositive() {
-        LoginPage loginPage = new LoginPage(webDriver);
-        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login",
-                            "Main page title is wrong");
-        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/",
-                            "Wrong URL on Login page");
+        String TitleTextLogin ="Shotspotter - Login";
+        String TitleTextLoginError ="Main page title is wrong";
+        String TitleTextLoginMain ="Shotspotter";
+        String TitleTextLoginMainError ="Main page title is wrong";
+        String URLLoginPage ="https://alerts.shotspotter.biz/";
+        String URLLoginError ="Wrong URL on Login page";
+        String URLLoginPageMain ="https://alerts.shotspotter.biz/main";
+        String URLLoginMainError ="Wrong URL on Main page";
+        String SettingErrorMsg = "Setting Icon is not displayed";
+        String Email = "denvert1@shotspotter.net";
+        String Password = "Test123!";
 
-        loginPage.LoginAs("denvert1@shotspotter.net","Test123!");
+        LoginPage loginPage = new LoginPage(webDriver);
+        Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
+        Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
+
+        loginPage.LoginAs(Email, Password);
 
         MainPage mainPage = new MainPage(webDriver);
         mainPage.isPageLoaded();
 
-        Assert.assertEquals(mainPage.getPageTitle(), "Shotspotter",
-                            "Main page title is wrong");
-        Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"),
-                            "Wrong URL on Main page");
-        Assert.assertTrue(mainPage.isPageLoaded(),
-                            "Setting Icon is not displayed");
+        Assert.assertEquals(mainPage.getPageTitle(), TitleTextLoginMain, TitleTextLoginMainError);
+        Assert.assertTrue(mainPage.getPageURL().contains(URLLoginPageMain), URLLoginMainError);
+        Assert.assertTrue(mainPage.isPageLoaded(), SettingErrorMsg);
     }
 
     @Test
@@ -71,7 +78,7 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(webDriver);
         Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
         Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
-        loginPage = loginPage.LoginAsReturtToLogin(Email,Password);
+        loginPage.LoginAsReturtToLogin(Email,Password);
 
         loginPage.isPageLoaded();
         Assert.assertTrue(loginPage.isPageLoaded(), LoginPAgeError);

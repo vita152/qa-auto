@@ -10,11 +10,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by UI дизайн on 03.06.2017.
  */
-public class BasePage {
+public class  BasePage <T> {
     protected WebDriver webDriver;
+    public Class clazz;
 
-    public BasePage(WebDriver webDriver){
+
+    public BasePage (WebDriver webDriver, Class clazz){
         this.webDriver=webDriver;
+        this.clazz=clazz;
     }
 
     public String getPageURL() {
