@@ -51,7 +51,7 @@ public class LoginTest {
         Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
         Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
 
-        loginPage.LoginAs(Email, Password);
+        loginPage.login(Email, Password);
 
         MainPage mainPage = new MainPage(webDriver);
         mainPage.isPageLoaded();
@@ -78,7 +78,7 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(webDriver);
         Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
         Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
-        loginPage.LoginAsReturtToLogin(Email,Password);
+        loginPage.login(Email,Password);
 
         loginPage.isPageLoaded();
         Assert.assertTrue(loginPage.isPageLoaded(), LoginPAgeError);

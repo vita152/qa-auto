@@ -9,14 +9,15 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by QA on 30.05.2017.
  */
-public class MainPage  extends BasePage<MainPage> {
+public class MainPage  extends BasePage{
 
     @FindBy(className="settings")
     public WebElement settingIcon;
 
     public MainPage (WebDriver webDriver) {
-        super(webDriver, MainPage.class);
+        super(webDriver);
         PageFactory.initElements(webDriver, this);
+        waitUntilElementDisplaued(settingIcon, 10);
     }
 
     public boolean isPageLoaded() {
