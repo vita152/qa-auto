@@ -10,70 +10,44 @@ import static java.lang.Thread.sleep;
 /**
  * Created by UI дизайн on 27.05.2017.
  */
-public class LoginPage extends BasePage<LoginPage> {
+public class LoginPage extends BasePage {
 
-    @FindBy(xpath="//input[@type='email']")
+    @FindBy(xpath = "//input[@type='email']")
     private WebElement emailField;
-    @FindBy (xpath="//input[@type='password']")
+    @FindBy(xpath = "//input[@type='password']")
     private WebElement passwordField;
-    @FindBy (xpath="//*[@class='button' and text()='GO']")
+    @FindBy(xpath = "//*[@class='button' and text()='GO']")
     private WebElement goButton;
-    @FindBy (xpath="//*[@class='invalid-credentials']")
+    @FindBy(xpath = "//*[@class='invalid-credentials']")
     private WebElement invalidCredentialsErrorMsg;
 
-    public LoginPage(WebDriver webDriver){
-        super(webDriver, LoginPage.class);
+    public LoginPage(WebDriver webDriver) {
+        super(webDriver);
         PageFactory.initElements(webDriver, this);
-        webDriver.navigate().to("https://alerts.shotspotter.biz/");
+        //webDriver.navigate().to("https://alerts.shotspotter.biz/");
         waitUntilElementDisplaued(goButton, 5);
     }
 
-    public MainPage LoginAs(String userEmail, String userPassword){
+    public <T> T login(String userEmail, String userPassword) {
         emailField.sendKeys(userEmail);
         passwordField.sendKeys(userPassword);
         goButton.click();
-
-        if (goButton !=null)
-        {
-            waitUntilElementDisplaued(new MainPage(webDriver).settingIcon, 5);
+        if (isElementExist(emailField)) {
+            return (T) PageFactory.initElements(webDriver, LoginPage.class);
+        } else {
+            return (T) PageFactory.initElements(webDriver, MainPage.class);
         }
-        else{
-            waitUntilElementDisplaued(goButton, 5);}
-        return  new MainPage(webDriver);
     }
 
-    public LoginPage  LoginAsReturtToLogin (String userEmail, String userPassword){
-        emailField.sendKeys(userEmail);
-        passwordField.sendKeys(userPassword);
-        goButton.click();
-
-        waitUntilElementDisplaued(goButton, 5);
-        return this;
-    }
-
-    public Class  T (String userEmail, String userPassword){
-        emailField.sendKeys(userEmail);
-        passwordField.sendKeys(userPassword);
-        goButton.click();
-
-        if (goButton !=null)
-        {
-            waitUntilElementDisplaued(new MainPage(webDriver).settingIcon, 5);}
-        else{
-            waitUntilElementDisplaued(goButton, 5);}
-
-        return (Class) PageFactory.initElements(webDriver, clazz);
-    }
-
-    public boolean isPageLoaded(){
+    public boolean isPageLoaded() {
         return emailField.isDisplayed();
     }
 
-    public boolean  invalidCredentialsMsgDisplayed (){
+    public boolean invalidCredentialsMsgDisplayed() {
         return invalidCredentialsErrorMsg.isDisplayed();
     }
 
-    public  String getErrormsgText (){
+    public String getErrormsgText() {
         return invalidCredentialsErrorMsg.getText();
     }
- }
+}

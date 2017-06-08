@@ -25,6 +25,7 @@ public class LoginTest {
     @BeforeMethod
     public void beforeClass(){
        webDriver = new FirefoxDriver();
+        webDriver.navigate().to("https://alerts.shotspotter.biz/");
        }
 
     @AfterMethod
@@ -48,10 +49,11 @@ public class LoginTest {
         String Password = "Test123!";
 
         LoginPage loginPage = new LoginPage(webDriver);
+
         Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
         Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
 
-        loginPage.LoginAs(Email, Password);
+        loginPage.login(Email, Password);
 
         MainPage mainPage = new MainPage(webDriver);
         mainPage.isPageLoaded();
@@ -70,18 +72,21 @@ public class LoginTest {
         String DisplaydErrorMsg = "Error messege was not displayd on LoginPage";
         String URLLoginPage ="https://alerts.shotspotter.biz/";
         String URLLoginError ="Login URL on Login page";
-        String Email = "denvert1@shotspotter.net";
+        String Email = "denvert1@shotspot.net";
         String Password = "Test";
-        String LoginPAgeError = "LoginPage is not loaded";
+        String LoginPageError = "LoginPage is not loaded";
 
 
         LoginPage loginPage = new LoginPage(webDriver);
+
         Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
         Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
-        loginPage.LoginAsReturtToLogin(Email,Password);
 
+        loginPage.login(Email,Password);
         loginPage.isPageLoaded();
-        Assert.assertTrue(loginPage.isPageLoaded(), LoginPAgeError);
+
+        Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
+        Assert.assertTrue(loginPage.isPageLoaded(), LoginPageError);
         Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(),DisplaydErrorMsg);
         Assert.assertEquals(loginPage.getErrormsgText(), ExpectetErrorMsg, ExpectetErrorMsgError);
     }
