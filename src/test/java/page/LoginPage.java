@@ -31,8 +31,8 @@ public class LoginPage extends BasePage {
         emailField.sendKeys(userEmail);
         passwordField.sendKeys(userPassword);
         goButton.click();
-        if (isElementExist(emailField)) {
-            return (T) PageFactory.initElements(webDriver, LoginPage.class);
+        if (isElementDisplayed(goButton)) {
+            return (T) this;
         } else {
             return (T) PageFactory.initElements(webDriver, MainPage.class);
         }

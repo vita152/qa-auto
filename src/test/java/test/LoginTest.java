@@ -21,12 +21,14 @@ import static java.lang.Thread.sleep;
 public class LoginTest {
 
     public WebDriver webDriver;
+    public  String Email = "sst.tau@gmail.com";
+    public String Password = "P@ssword123";
 
     @BeforeMethod
     public void beforeClass(){
        webDriver = new FirefoxDriver();
-        webDriver.navigate().to("https://alerts.shotspotter.biz/");
-       }
+       webDriver.navigate().to("https://alerts.shotspotter.biz/");
+    }
 
     @AfterMethod
     public  void afterMethod()
@@ -36,58 +38,54 @@ public class LoginTest {
 
     @Test
     public void testLoginPositive() {
-        String TitleTextLogin ="Shotspotter - Login";
-        String TitleTextLoginError ="Main page title is wrong";
-        String TitleTextLoginMain ="Shotspotter";
-        String TitleTextLoginMainError ="Main page title is wrong";
-        String URLLoginPage ="https://alerts.shotspotter.biz/";
-        String URLLoginError ="Wrong URL on Login page";
-        String URLLoginPageMain ="https://alerts.shotspotter.biz/main";
-        String URLLoginMainError ="Wrong URL on Main page";
-        String SettingErrorMsg = "Setting Icon is not displayed";
-        String Email = "denvert1@shotspotter.net";
-        String Password = "Test123!";
-
         LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
-        Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
+        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong URL on Login page");
 
         loginPage.login(Email, Password);
 
         MainPage mainPage = new MainPage(webDriver);
         mainPage.isPageLoaded();
 
-        Assert.assertEquals(mainPage.getPageTitle(), TitleTextLoginMain, TitleTextLoginMainError);
-        Assert.assertTrue(mainPage.getPageURL().contains(URLLoginPageMain), URLLoginMainError);
-        Assert.assertTrue(mainPage.isPageLoaded(), SettingErrorMsg);
+        Assert.assertEquals(mainPage.getPageTitle(), "Shotspotter", "Main page title is wrong");
+        Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong URL on Main page");
+        Assert.assertTrue(mainPage.isPageLoaded(), "Setting Icon is not displayed");
     }
 
     @Test
     public void testLoginNegativ(){
-        String TitleTextLogin ="Shotspotter - Login";
-        String TitleTextLoginError ="Login page title is wrong";
-        String ExpectetErrorMsg = "The provided credentials are not correct.";
-        String ExpectetErrorMsgError = "Invalid Text not correct";
-        String DisplaydErrorMsg = "Error messege was not displayd on LoginPage";
-        String URLLoginPage ="https://alerts.shotspotter.biz/";
-        String URLLoginError ="Login URL on Login page";
-        String Email = "denvert1@shotspot.net";
-        String Password = "Test";
-        String LoginPageError = "LoginPage is not loaded";
-
 
         LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertEquals(loginPage.getPageTitle(), TitleTextLogin, TitleTextLoginError);
-        Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
+        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Login page title is wrong");
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
 
-        loginPage.login(Email,Password);
+        loginPage.login(Email, "Test");
         loginPage.isPageLoaded();
 
-        Assert.assertEquals(loginPage.getPageURL(), URLLoginPage, URLLoginError);
-        Assert.assertTrue(loginPage.isPageLoaded(), LoginPageError);
-        Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(),DisplaydErrorMsg);
-        Assert.assertEquals(loginPage.getErrormsgText(), ExpectetErrorMsg, ExpectetErrorMsgError);
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
+        Assert.assertTrue(loginPage.isPageLoaded(), "LoginPage is not loaded");
+        Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(),"Error messege was not displayd on LoginPage");
+        Assert.assertEquals(loginPage.getErrormsgText(), "The provided credentials are not correct.", "Invalid Text not correct");
+    }
+
+    @Test
+    public void LogOutTest() {
+
+        LoginPage loginPage = new LoginPage(webDriver);
+
+        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong URL on Login page");
+
+        MainPage mainPage = loginPage.login(Email, Password);
+
+        Assert.assertEquals(mainPage.getPageTitle(), "Shotspotter", "Main page title is wrong");
+        Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong URL on Main page");
+        Assert.assertTrue(mainPage.isPageLoaded(), "Setting Icon is not displayed");
+
+        loginPage = mainPage.logOut();
+        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong URL on Login page");
     }
 }
