@@ -11,7 +11,7 @@ import static java.lang.Thread.sleep;
 /**
  * Created by QA on 30.05.2017.
  */
-public class MainPage extends BasePage {
+public class MainPage extends BasePage<MainPage> {
 
     @FindBy(className = "settings")
     private WebElement settingIcon;
@@ -24,7 +24,7 @@ public class MainPage extends BasePage {
 
 
     public MainPage(WebDriver webDriver) {
-        super(webDriver);
+        super(webDriver, MainPage.class);
         PageFactory.initElements(webDriver, this);
         waitUntilElementDisplaued(settingIcon);
 

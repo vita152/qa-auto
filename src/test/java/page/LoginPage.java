@@ -10,7 +10,7 @@ import static java.lang.Thread.sleep;
 /**
  * Created by UI дизайн on 27.05.2017.
  */
-public class LoginPage extends BasePage {
+public class LoginPage extends BasePage <LoginPage>{
 
     @FindBy(xpath = "//input[@type='email']")
     private WebElement emailField;
@@ -22,7 +22,7 @@ public class LoginPage extends BasePage {
     private WebElement invalidCredentialsErrorMsg;
 
     public LoginPage(WebDriver webDriver) {
-        super(webDriver);
+        super(webDriver, LoginPage.class);
         PageFactory.initElements(webDriver, this);
         waitUntilElementDisplaued(goButton, 5);
     }
