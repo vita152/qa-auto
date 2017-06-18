@@ -21,21 +21,31 @@ import static java.lang.Thread.sleep;
 public class LoginTest {
 
     public WebDriver webDriver;
-    public  String Email = "sst.tau@gmail.com";
+    public String Email = "sst.tau@gmail.com";
     public String Password = "P@ssword123";
 
+    /**
+     * Open Firefox,
+     * go to "https://alerts.shotspotter.biz/"
+     */
     @BeforeMethod
     public void beforeClass(){
        webDriver = new FirefoxDriver();
        webDriver.navigate().to("https://alerts.shotspotter.biz/");
     }
 
+    /**
+     * Close window Firefox
+     */
     @AfterMethod
     public  void afterMethod()
 {
     webDriver.quit();
 }
 
+    /**
+     * Type right login and password, click "goButton", and get MainPage
+     */
     @Test
     public void testLoginPositive() {
         LoginPage loginPage = new LoginPage(webDriver);
@@ -53,6 +63,9 @@ public class LoginTest {
         Assert.assertTrue(mainPage.isPageLoaded(), "Setting Icon is not displayed");
     }
 
+    /**
+     * Type wrong login and password, click "goButton", and get Error Message
+     */
     @Test
     public void testLoginNegativ(){
 
@@ -70,6 +83,11 @@ public class LoginTest {
         Assert.assertEquals(loginPage.getErrormsgText(), "The provided credentials are not correct.", "Invalid Text not correct");
     }
 
+    /**
+     * Type right login and password, click "goButton", get MainPage,
+     * in drop-down-menu "settings" click "logOut",
+     * and get LoginPage
+     */
     @Test
     public void LogOutTest() {
 

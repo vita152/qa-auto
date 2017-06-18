@@ -9,19 +9,30 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
+
 /**
- * Created by UI дизайн on 03.06.2017.
+ * BasePage with unknown type <T>
+ *
+ * @param <T>  Variable declaration webDriver
  */
 public class BasePage <T>{
     protected WebDriver webDriver;
-    private Class<T> clazz;
 
 
-    public BasePage(WebDriver webDriver, Class<T> clazz) {
+    /**
+     *Constructor BasePage
+     *
+     * @param webDriver  webDriver is initialization
+     */
+    public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
-        this.clazz = clazz;
     }
 
+    /**
+     * Common method to get current Page URL
+     *
+     * @return String with current Page URL
+     */
     public String getPageURL() {
         return webDriver.getCurrentUrl();
     }
@@ -35,6 +46,13 @@ public class BasePage <T>{
         return webDriver.getTitle();
     }
 
+    /**
+     *Waits until element is displayed using specific max timeout and
+     * catch Exception when element is not displayed
+     *
+     * @param element Webelement to wait for
+     * @return Is Webelement displayed or not (True or false)
+     */
     public boolean isElementDisplayed(WebElement element) {
         try {
             waitUntilElementDisplaued (element, 3).isDisplayed();
@@ -49,18 +67,31 @@ public class BasePage <T>{
      *
      * @param element Webelement to wait for
      * @param timeout Max timeout in seconds
-     * @return WebElement after expected contition
+     * @return WebElement after expected condition
      */
     public WebElement waitUntilElementClickable(WebElement element, int timeout) {
         WebDriverWait wait = new WebDriverWait(webDriver, timeout);
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
+    /**
+     * Waits until element is displayed using specific max timeout.
+     *
+     * @param element Webelement to wait for
+     * @param timeout Max timeout in seconds
+     * @return WebElement after expected condition.
+     */
     public WebElement waitUntilElementDisplaued(WebElement element, int timeout) {
         WebDriverWait wait = new WebDriverWait(webDriver, timeout);
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    /**
+     *Waits until element is displayed.
+     *
+     * @param element Webelement to wait for
+     * @return WebElement after expected condition using specific max timeout
+     */
     public WebElement waitUntilElementDisplaued (WebElement element){
         return waitUntilElementDisplaued (element, 10);
     }
