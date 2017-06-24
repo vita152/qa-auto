@@ -19,33 +19,22 @@ import static java.lang.Thread.sleep;
  * logOut,
  * map.
  */
-public class MainPage extends BasePage<MainPage> {
+public class MainPage extends BasePage {
 
     @FindBy(className = "settings")
     private WebElement settingIcon;
-
     /**
      * drop down menu "settings"
      */
     @FindBy(xpath = "//div[@class='settings isOpen']")
     private WebElement settingMenu;
-
     /**
      * WebElement "logOut" in drop down menu "settings"
      */
     @FindBy(xpath = "//settings-drop-down//li[text()='Logout']")
     private WebElement logOutMenuItem;
-
     @FindBy(xpath = "//filter-menu//div[@class='selected-option']")
     private WebElement incidentsTimeSwitch;
-    @FindBy(xpath = "//filter-menu//div[@class='available-options']//*[@class='time-increment' and text()='24']")
-    private WebElement timeFrameSwitch24h;
-    @FindBy(xpath = "//filter-menu//div[@class='available-options']//*[@class='time-increment' and text()='3']")
-    private WebElement timeFrameSwitch3d;
-    @FindBy(xpath = "//filter-menu//div[@class='available-options']//*[@class='time-increment' and text()='7']")
-    private WebElement timeFrameSwitch7d;
-    @FindBy(xpath = "//filter-menu//div[@class='available-options']//*[@class='time-increment'] and text()='']")
-    private WebElement timeFrameSwitch;
     @FindBy(xpath = "//*[@class='result-count']")
     private WebElement resultsCount;
     @FindBy(xpath = "//div//*[text()='List']")
@@ -53,9 +42,21 @@ public class MainPage extends BasePage<MainPage> {
     @FindBy(xpath = "//incident-list//incident-card")
     private List<WebElement> incidentsList;
 
+    /**
+     * @param period
+     * @return
+     */
+    private WebElement getTimeFramePeriodOption(int period) {
+        return webDriver.findElement(By.xpath(String.format("//filter-menu//div[@class='available-options']//*[@class='time-increment' and text()='%d']", period)));
+    }
 
+    /**
+     * Numeric from RESULTS
+     *
+     * @return quantity of RESULTS
+     */
     public int getResultsCount() {
-        return Integer.parseInt(resultsCount.getText().replace(" Results", ""));
+        return Integer.parseInt(resultsCount.getText().replace(" RESULTS", ""));
     }
 
     /**
@@ -95,20 +96,27 @@ public class MainPage extends BasePage<MainPage> {
 
     /**
      * Choose days in timeFrameSwitch
-     * @param i days
+     *
+     * @param period days
      */
-    public void switchTimeFramePeriod(int i) {
+    public void switchTimeFramePeriod(int period) {
         incidentsTimeSwitch.click();
-        switch (i) {
-            case 7:
-                timeFrameSwitch7d.click();
-                break;
-            case 24:
-                timeFrameSwitch24h.click();
-                break;
-            case 3:
-                timeFrameSwitch3d.click();
-                break;
+        getTimeFramePeriodOption(period).click();
+        waitResultCountUpdated(10);
+    }
+
+    public void waitResultCountUpdated(int maxTimeoutSec) {
+        int initialResultCount = getResultsCount();
+
+        for (int i = 0; i < maxTimeoutSec; i++) {
+            try {
+                Thread.sleep(100);
+                int currentResult = getResultsCount();
+                if (initialResultCount != currentResult) {
+                    break;
+                }
+            } catch (InterruptedException e) {
+            }
         }
     }
 
@@ -117,7 +125,7 @@ public class MainPage extends BasePage<MainPage> {
      *
      * @return quantity of Elements
      */
-     public int getIncidentCardsCount() {
+    public int getIncidentCardsCount() {
         listButton.click();
         return incidentsList.size();
     }

@@ -11,18 +11,18 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * BasePage with unknown type <T>
+ * BasePage
  *
- * @param <T>  Variable declaration webDriver
+ * @param
  */
-public class BasePage <T>{
+public class BasePage{
     protected WebDriver webDriver;
 
 
     /**
      *Constructor BasePage
      *
-     * @param webDriver  webDriver is initialization
+     * @param webDriver  webDriver instans
      */
     public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;

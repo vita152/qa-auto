@@ -11,7 +11,7 @@ import static java.lang.Thread.sleep;
 /**
  * First page have: login, password, go, ErrorMsg
  */
-public class LoginPage extends BasePage <LoginPage>{
+public class LoginPage extends BasePage {
 
     @FindBy(xpath = "//input[@type='email']")
     private WebElement emailField;
@@ -44,7 +44,7 @@ public class LoginPage extends BasePage <LoginPage>{
      *
      * @param userEmail type login
      * @param userPassword type password
-     * @param <T> unknown Page Object
+     * @param <T> unknown Page Object type (LoginPage/MainPage)
      * @return PageObject (LoginPage or MainPage)
      */
     public <T> T login(String userEmail, String userPassword) {

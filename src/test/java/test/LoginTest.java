@@ -25,11 +25,11 @@ public class LoginTest {
     public String Password = "P@ssword123";
 
     /**
-     * Open Firefox,
+     * Open Firefox, (Webdriver init)
      * go to "https://alerts.shotspotter.biz/"
      */
     @BeforeMethod
-    public void beforeClass(){
+    public void beforeMethod(){
        webDriver = new FirefoxDriver();
        webDriver.navigate().to("https://alerts.shotspotter.biz/");
     }
