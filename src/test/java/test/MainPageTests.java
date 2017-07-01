@@ -40,7 +40,7 @@ public class MainPageTests {
 
     @Test
     public void testSwitchIncidentsPeriod() throws InterruptedException {
-        int[] timeFrameOptions = {24, 3, 7};// списое элементов
+        int[] timeFrameOptions = {24, 3, 7};// список элементов
 
         for (int timeFrameOption : timeFrameOptions) {// инициализация еще одной переменной, которая является по очереди каждой переменной из списка
 

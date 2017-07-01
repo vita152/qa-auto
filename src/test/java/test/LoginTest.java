@@ -23,22 +23,24 @@ public class LoginTest {
     public WebDriver webDriver;
     public String Email = "sst.tau@gmail.com";
     public String Password = "P@ssword123";
+    LoginPage loginPage;
 
     /**
      * Open Firefox, (Webdriver init)
      * go to "https://alerts.shotspotter.biz/"
      */
-    @BeforeMethod
-    public void beforeMethod(){
+    @BeforeClass
+    public void beforeClass(){
        webDriver = new FirefoxDriver();
        webDriver.navigate().to("https://alerts.shotspotter.biz/");
+       loginPage = new LoginPage(webDriver);
     }
 
     /**
      * Close window Firefox
      */
-    @AfterMethod
-    public  void afterMethod()
+    @AfterClass
+    public  void afterClass()
 {
     webDriver.quit();
 }
@@ -74,7 +76,7 @@ public class LoginTest {
         Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Login page title is wrong");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
 
-        loginPage.login(Email, "Test");
+        loginPage.login("sst.tau@gmailcom", "Test");
         loginPage.isPageLoaded();
 
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
@@ -106,4 +108,34 @@ public class LoginTest {
         Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong URL on Login page");
     }
+
+    @DataProvider
+    public static Object[][] falseLoginEmail() {
+        return new Object[][]{
+                {"", "P@ssword123", "The provided credentials are not correct."},
+                {"24sst.tau@gmailcom", "P@ssword123", "The provided credentials are not correct."},
+                {"24sst.taugmail.com", "P@ssword123", "The provided credentials are not correct."},
+                {"24 sst.tau@gmail.com", "P@ssword123", "The provided credentials are not correct."},
+                {"24sst.tau@gmai l.com", "P@ssword123", "The provided credentials are not correct."},
+                {"@gmail.com", "P@ssword123", "The provided credentials are not correct."},
+                {"24sst.tau@", "P@ssword123", "The provided credentials are not correct."},
+                {"24sst.tau@@gmail.com", "P@ssword123", "The provided credentials are not correct."},
+                {"24sst.tau@gmail.com", "", "The provided credentials are not correct."},
+                {"24sst.tau@gmail.com", "P@ssword", "The provided credentials are not correct."},
+                {"", "", "The provided credentials are not correct."}};
+    }
+
+    @Test(dataProvider = "falseLoginEmail")
+    public void testLoginNegativDataProvider(String Email, String Password, String Errormsg) {
+
+        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Login page title is wrong");
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
+
+        loginPage.login(Email, Password);
+        loginPage.isPageLoaded();
+
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
+        Assert.assertTrue(loginPage.isPageLoaded(), "LoginPage is not loaded");
+        Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(),"Error messege was not displayd on LoginPage");
+        Assert.assertEquals(loginPage.getErrormsgText(), Errormsg, "Invalid Text not correct");}
 }
