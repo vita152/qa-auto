@@ -1,19 +1,11 @@
 package test;
-
-import jdk.management.resource.internal.inst.StaticInstrumentation;
-import net.sourceforge.htmlunit.corejs.javascript.tools.shell.Global;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import page.LoginPage;
 import page.MainPage;
 
-import java.util.NoSuchElementException;
-
-import static java.lang.Thread.sleep;
 
 /**
  * Created by Java Script on 20.05.2017.
@@ -23,24 +15,24 @@ public class LoginTest {
     public WebDriver webDriver;
     public String Email = "sst.tau@gmail.com";
     public String Password = "P@ssword123";
-    LoginPage loginPage;
+
 
     /**
      * Open Firefox, (Webdriver init)
      * go to "https://alerts.shotspotter.biz/"
      */
-    @BeforeClass
-    public void beforeClass(){
+    @BeforeMethod
+    public void beforeMethod(){
        webDriver = new FirefoxDriver();
        webDriver.navigate().to("https://alerts.shotspotter.biz/");
-       loginPage = new LoginPage(webDriver);
+
     }
 
     /**
      * Close window Firefox
      */
-    @AfterClass
-    public  void afterClass()
+    @AfterMethod
+    public  void afterMethod()
 {
     webDriver.quit();
 }
@@ -127,6 +119,7 @@ public class LoginTest {
 
     @Test(dataProvider = "falseLoginEmail")
     public void testLoginNegativDataProvider(String Email, String Password, String Errormsg) {
+        LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Login page title is wrong");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
