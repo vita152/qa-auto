@@ -1,6 +1,7 @@
 package test;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -11,19 +12,25 @@ import page.MainPage;
 /**
  * Created by Вита on 23.06.2017.
  */
-public class MainPageTests {
+public class MainPageTest {
     public WebDriver webDriver;
     MainPage mainPage;
     public String Email = "denvert1@shotspotter.net";
     public String Password = "Test123!";
+
+    @Parameters({ "browser" })
 
     /**
      * Open Firefox,
      * go to "https://alerts.shotspotter.biz/"
      */
     @BeforeClass
-    public void beforeClass() {
-        webDriver = new FirefoxDriver();
+    public void beforeClass(String browser) {
+        if (browser.equalsIgnoreCase("Firefox")) {
+            webDriver = new FirefoxDriver();
+        } else if (browser.equalsIgnoreCase("chrome")) {
+            webDriver = new ChromeDriver();
+        }
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
         LoginPage loginPage = new LoginPage(webDriver);
         mainPage = loginPage.login(Email, Password);

@@ -1,18 +1,18 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="LoginTests" verbose="1" >
+<suite name="MainPageTests" verbose="1">
 
-    <test name="LoginTests_Firefox" >
+    <test name="MainPageTests_Firefox">
         <parameter name="browser" value="Firefox"/>
         <classes>
-            <class name="test.LoginTest" />
+            <class name="test.MainPageTest"/>
         </classes>
     </test>
 
-    <test name="LoginTests_Chrome" >
+    <test name="MainPageTests_Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="test.LoginTest" />
+            <class name="test.MainPageTest"/>
         </classes>
     </test>
 

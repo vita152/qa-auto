@@ -1,5 +1,6 @@
 package test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -16,14 +17,21 @@ public class LoginTest {
     public String Email = "sst.tau@gmail.com";
     public String Password = "P@ssword123";
 
+    @Parameters({ "browser" })
 
     /**
      * Open Firefox, (Webdriver init)
      * go to "https://alerts.shotspotter.biz/"
      */
     @BeforeMethod
-    public void beforeMethod(){
-       webDriver = new FirefoxDriver();
+    public void beforeMethod(String browser){
+            if (browser.equalsIgnoreCase("Firefox")) {
+                webDriver = new FirefoxDriver();
+            } else if (browser.equalsIgnoreCase("chrome")) {
+                webDriver = new ChromeDriver();
+            }
+
+        //webDriver = new FirefoxDriver();
        webDriver.navigate().to("https://alerts.shotspotter.biz/");
 
     }
