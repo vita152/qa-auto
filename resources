@@ -1,0 +1,3 @@
+System.setProperty("webDriver.gecko.driver","D:\\ITEA1\KURS3C\\geckodriver.exe");
+
+

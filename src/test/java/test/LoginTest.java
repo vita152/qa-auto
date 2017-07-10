@@ -24,7 +24,7 @@ public class LoginTest {
      * go to "https://alerts.shotspotter.biz/"
      */
     @BeforeMethod
-    public void beforeMethod(@Optional ("Firefox") String browser) throws InterruptedException{
+    public void beforeMethod(@Optional ("chrome") String browser) throws InterruptedException{
         if (browser.equalsIgnoreCase("Firefox")) {
             webDriver = new FirefoxDriver();
         } else if (browser.equalsIgnoreCase("chrome")) {
