@@ -1,4 +1,6 @@
 package test;
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -24,10 +26,12 @@ public class LoginTest {
      * go to "https://alerts.shotspotter.biz/"
      */
     @BeforeMethod
-    public void beforeMethod(@Optional ("chrome") String browser) throws InterruptedException{
+    public void beforeMethod(@Optional ("Firefox") String browser) throws InterruptedException{
         if (browser.equalsIgnoreCase("Firefox")) {
+            FirefoxDriverManager.getInstance().setup();
             webDriver = new FirefoxDriver();
         } else if (browser.equalsIgnoreCase("chrome")) {
+            ChromeDriverManager.getInstance().setup();
             webDriver = new ChromeDriver();
         }
        webDriver.navigate().to("https://alerts.shotspotter.biz/");
