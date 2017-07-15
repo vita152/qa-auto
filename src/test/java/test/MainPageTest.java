@@ -88,21 +88,22 @@ public class MainPageTest {
     }
 
     @Test
-    public void testCheckCity() throws InterruptedException {
-        int[] timeFrameOptions = {24};// список элементов
+    public void testValidateIncidentCardFi() {
+        String expectedCity = "Denver";
+        mainPage.openIncidentsList();
+        List<String> listCities = mainPage.getIncidentCardsCities();
+        List<String> listStreets = mainPage.getIncidentCardsStreets();
+        List<String> listTimeStamps = mainPage.getIncidentCardsTimeStamps();
 
-        for (int timeFrameOption : timeFrameOptions) {
-            mainPage.switchTimeFramePeriod(timeFrameOption);
-            int resultsCount = mainPage.getResultsCount();
-            int incidentCardsCount = mainPage.getIncidentCardsCount();
-           // String adress = mainPage.adress();
-
-            System.out.println("Period:" + timeFrameOption);
-            System.out.println("resultsCount: " + resultsCount);
-            System.out.println("incidentCardsCount: " + incidentCardsCount);
-          //  System.out.println("adress: " + adress);
-
-            Assert.assertEquals(resultsCount, incidentCardsCount, "Results count doesn't match Incident Cards count");
+        for (String elementCity : listCities) {
+            Assert.assertEquals(elementCity, expectedCity, "City is not Denver");
         }
+        for (String elementStreet : listStreets) {
+            Assert.assertNotEquals(elementStreet, "", "Street address is empty");
+        }
+        for (String listTimeStamp : listTimeStamps) {
+            Assert.assertNotEquals(listTimeStamps, "", "listTimeStamp address is empty");
+        }
+
     }
 }

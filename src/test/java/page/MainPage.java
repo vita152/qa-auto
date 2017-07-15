@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,8 +40,7 @@ public class MainPage extends BasePage {
     private WebElement listButton;
     @FindBy(xpath = "//incident-list//incident-card")
     private List<WebElement> incidentsList;
-    @FindBy(xpath = "//incident-list//incident-card//div[@class='address']")
-    private List<WebElement> adressList;
+
 
     /**
      * @param period
@@ -50,14 +50,6 @@ public class MainPage extends BasePage {
         return webDriver.findElement(By.xpath(String.format("//filter-menu//div[@class='available-options']//*[@class='time-increment' and text()='%d']", period)));
     }
 
-    public String  adress() {
-      //  By mySelector = By.xpath("adressList");//("//incident-list//incident-card//div[@class='address']");
-    List<WebElement> f = webDriver.findElements(By.xpath("//incident-list//incident-card//div[@class='address']"));
-        for (WebElement e : f) {
-     return (e.getText());
-           // System.out.println(e.getText());
-        }
-    }
 
     /**
      * Numeric from RESULTS
@@ -140,4 +132,36 @@ public class MainPage extends BasePage {
     }
 
 
+    public void openIncidentsList() {
+        listButton.click();
+        waitUntilElementClickable(incidentsList.get(1), 5);
+    }
+
+    public List<String> getIncidentCardsCities() {
+        List<String>  listCities= new ArrayList<String>();
+
+        for (WebElement incidentCard : incidentsList) {
+            String cityText = incidentCard.findElement(By.xpath("//div[@class='city S']")).getText();
+            listCities.add(cityText);
+        }
+        return  listCities;
+    }
+
+    public List<String> getIncidentCardsStreets() {
+        List<String>  listStreets = new ArrayList<String>();
+        for (WebElement incidentCard : incidentsList) {
+            String streetText = incidentCard.findElement(By.xpath("//div[@class='address']")).getText();
+            listStreets.add(streetText);
+        }
+        return  listStreets;
+    }
+
+    public List<String> getIncidentCardsTimeStamps() {
+        List<String>  listTimeStamps = new ArrayList<String>();
+        for (WebElement incidentTimeStamps : incidentsList) {
+            String TimeStampsText = incidentTimeStamps.findElement(By.xpath("//div[@class='cell day']/div [@class='content']")).getText();
+            listTimeStamps.add(TimeStampsText);
+        }
+        return  listTimeStamps;
+    }
 }
