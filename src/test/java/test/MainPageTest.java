@@ -106,4 +106,10 @@ public class MainPageTest {
         }
 
     }
+
+    @Test
+    public void AbOutTest() {
+        mainPage.abOutMenuItem();
+
+    }
 }

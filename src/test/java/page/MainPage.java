@@ -10,6 +10,8 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 
 /**
  * MainPage have:
@@ -31,6 +33,8 @@ public class MainPage extends BasePage {
      */
     @FindBy(xpath = "//settings-drop-down//li[text()='Logout']")
     private WebElement logOutMenuItem;
+    @FindBy(xpath = "//settings-drop-down//li[text()='About']")
+    private WebElement abOutMenuItem;
     @FindBy(xpath = "//filter-menu//div[@class='selected-option']")
     private WebElement incidentsTimeSwitch;
     @FindBy(xpath = "//*[@class='result-count']")
@@ -39,6 +43,10 @@ public class MainPage extends BasePage {
     private WebElement listButton;
     @FindBy(xpath = "//incident-list//incident-card")
     private List<WebElement> incidentsList;
+    @FindBy(xpath = "//div[@class='modal-content']")
+    private WebElement modalcontent;
+    @FindBy(xpath = "//div[@class='about-dialog-content']//*[text()='terms of service']")
+    private WebElement termsofservice;
 
 
     /**
@@ -110,7 +118,7 @@ public class MainPage extends BasePage {
 
         for (int i = 0; i < maxTimeoutSec; i++) {
             try {
-                Thread.sleep(100);
+                sleep(100);
                 int currentResult = getResultsCount();
                 if (initialResultCount != currentResult) {
                     break;
@@ -162,4 +170,12 @@ public class MainPage extends BasePage {
         }
         return listTimeStamps;
     }
+
+    public void abOutMenuItem() {
+        settingIcon.click();
+        waitUntilElementDisplaued(settingMenu);
+        waitUntilElementClickable(abOutMenuItem, 5).click();
+        termsofservice.click();
+    }
+
 }
