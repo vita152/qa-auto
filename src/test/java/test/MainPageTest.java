@@ -1,12 +1,17 @@
 package test;
 
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import page.LoginPage;
 import page.MainPage;
+
+import java.util.List;
 
 
 /**
@@ -18,17 +23,19 @@ public class MainPageTest {
     public String Email = "denvert1@shotspotter.net";
     public String Password = "Test123!";
 
-    @Parameters({ "browser" })
+    @Parameters({"browser"})
 
     /**
      * Open Firefox,
      * go to "https://alerts.shotspotter.biz/"
      */
     @BeforeClass
-    public void beforeClass(String browser) {
+    public void beforeClass(@Optional("Firefox") String browser) throws InterruptedException {
         if (browser.equalsIgnoreCase("Firefox")) {
+            FirefoxDriverManager.getInstance().setup();
             webDriver = new FirefoxDriver();
         } else if (browser.equalsIgnoreCase("chrome")) {
+            ChromeDriverManager.getInstance().setup();
             webDriver = new ChromeDriver();
         }
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
@@ -78,5 +85,24 @@ public class MainPageTest {
         System.out.println("incidentCardsCount: " + incidentCardsCount);
 
         Assert.assertEquals(resultsCount, incidentCardsCount, "Results count doesn't match Incident Cards count");
+    }
+
+    @Test
+    public void testCheckCity() throws InterruptedException {
+        int[] timeFrameOptions = {24};// список элементов
+
+        for (int timeFrameOption : timeFrameOptions) {
+            mainPage.switchTimeFramePeriod(timeFrameOption);
+            int resultsCount = mainPage.getResultsCount();
+            int incidentCardsCount = mainPage.getIncidentCardsCount();
+           // String adress = mainPage.adress();
+
+            System.out.println("Period:" + timeFrameOption);
+            System.out.println("resultsCount: " + resultsCount);
+            System.out.println("incidentCardsCount: " + incidentCardsCount);
+          //  System.out.println("adress: " + adress);
+
+            Assert.assertEquals(resultsCount, incidentCardsCount, "Results count doesn't match Incident Cards count");
+        }
     }
 }

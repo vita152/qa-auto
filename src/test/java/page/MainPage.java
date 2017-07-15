@@ -39,6 +39,8 @@ public class MainPage extends BasePage {
     private WebElement listButton;
     @FindBy(xpath = "//incident-list//incident-card")
     private List<WebElement> incidentsList;
+    @FindBy(xpath = "//incident-list//incident-card//div[@class='address']")
+    private List<WebElement> adressList;
 
     /**
      * @param period
@@ -46,6 +48,15 @@ public class MainPage extends BasePage {
      */
     private WebElement getTimeFramePeriodOption(int period) {
         return webDriver.findElement(By.xpath(String.format("//filter-menu//div[@class='available-options']//*[@class='time-increment' and text()='%d']", period)));
+    }
+
+    public String  adress() {
+      //  By mySelector = By.xpath("adressList");//("//incident-list//incident-card//div[@class='address']");
+    List<WebElement> f = webDriver.findElements(By.xpath("//incident-list//incident-card//div[@class='address']"));
+        for (WebElement e : f) {
+     return (e.getText());
+           // System.out.println(e.getText());
+        }
     }
 
     /**
@@ -127,4 +138,6 @@ public class MainPage extends BasePage {
         listButton.click();
         return incidentsList.size();
     }
+
+
 }
