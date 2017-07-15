@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * MainPage have:
  * settingIcon,
@@ -131,37 +130,36 @@ public class MainPage extends BasePage {
         return incidentsList.size();
     }
 
-
     public void openIncidentsList() {
         listButton.click();
         waitUntilElementClickable(incidentsList.get(1), 5);
     }
 
     public List<String> getIncidentCardsCities() {
-        List<String>  listCities= new ArrayList<String>();
+        List<String> listCities = new ArrayList<String>();
 
         for (WebElement incidentCard : incidentsList) {
             String cityText = incidentCard.findElement(By.xpath("//div[@class='city S']")).getText();
             listCities.add(cityText);
         }
-        return  listCities;
+        return listCities;
     }
 
     public List<String> getIncidentCardsStreets() {
-        List<String>  listStreets = new ArrayList<String>();
+        List<String> listStreets = new ArrayList<String>();
         for (WebElement incidentCard : incidentsList) {
             String streetText = incidentCard.findElement(By.xpath("//div[@class='address']")).getText();
             listStreets.add(streetText);
         }
-        return  listStreets;
+        return listStreets;
     }
 
     public List<String> getIncidentCardsTimeStamps() {
-        List<String>  listTimeStamps = new ArrayList<String>();
+        List<String> listTimeStamps = new ArrayList<String>();
         for (WebElement incidentTimeStamps : incidentsList) {
             String TimeStampsText = incidentTimeStamps.findElement(By.xpath("//div[@class='cell day']/div [@class='content']")).getText();
             listTimeStamps.add(TimeStampsText);
         }
-        return  listTimeStamps;
+        return listTimeStamps;
     }
 }
