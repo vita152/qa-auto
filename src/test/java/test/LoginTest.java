@@ -61,7 +61,7 @@ public class LoginTest {
         MainPage mainPage = new MainPage(webDriver);
         mainPage.isPageLoaded();
 
-        Assert.assertEquals(mainPage.getPageTitle(), "Shotspotter", "Main page title is wrong");
+        Assert.assertEquals(mainPage.getPageTitle(), "ShotSpotter", "Main page title is wrong");
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong URL on Main page");
         Assert.assertTrue(mainPage.isPageLoaded(), "Setting Icon is not displayed");
     }
@@ -74,7 +74,7 @@ public class LoginTest {
 
         LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Login page title is wrong");
+        Assert.assertEquals(loginPage.getPageTitle(), "ShotSpotter - Login", "Login page title is wrong");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
 
         loginPage.login("sst.tau@gmailcom", "Test");
@@ -101,12 +101,12 @@ public class LoginTest {
 
         MainPage mainPage = loginPage.login(Email, Password);
 
-        Assert.assertEquals(mainPage.getPageTitle(), "Shotspotter", "Main page title is wrong");
+        Assert.assertEquals(mainPage.getPageTitle(), "ShotSpotter", "Main page title is wrong");
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong URL on Main page");
         Assert.assertTrue(mainPage.isPageLoaded(), "Setting Icon is not displayed");
 
         loginPage = mainPage.logOut();
-        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
+        Assert.assertEquals(loginPage.getPageTitle(), "ShotSpotter - Login", "Main page title is wrong");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong URL on Login page");
     }
 

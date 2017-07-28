@@ -36,7 +36,7 @@ public class LoginPage extends BasePage {
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
-        waitUntilElementDisplaued(goButton, 20);
+        waitUntilElementDisplaued(goButton, 50);
     }
 
     /**

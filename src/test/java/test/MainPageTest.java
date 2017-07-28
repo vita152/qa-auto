@@ -1,5 +1,6 @@
 package test;
 
+import com.sun.jna.platform.win32.Sspi;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -90,10 +91,11 @@ public class MainPageTest {
     @Test
     public void testValidateIncidentCardFi() {
         String expectedCity = "Denver";
+        mainPage.switchTimeFramePeriod(3);
         mainPage.openIncidentsList();
-        List<String> listCities = mainPage.getIncidentCardsCities();
-        List<String> listStreets = mainPage.getIncidentCardsStreets();
-        List<String> listTimeStamps = mainPage.getIncidentCardsTimeStamps();
+        List<String> listCities = mainPage.getIncidentCards("city");
+        List<String> listStreets = mainPage.getIncidentCards("street");
+        List<String> listTimeStamps = mainPage.getIncidentCards("time");
 
         for (String elementCity : listCities) {
             Assert.assertEquals(elementCity, expectedCity, "City is not Denver");
@@ -102,14 +104,8 @@ public class MainPageTest {
             Assert.assertNotEquals(elementStreet, "", "Street address is empty");
         }
         for (String listTimeStamp : listTimeStamps) {
-            Assert.assertNotEquals(listTimeStamps, "", "listTimeStamp address is empty");
+            Assert.assertNotEquals(listTimeStamp, "", "listTimeStamp address is empty");
         }
-
-    }
-
-    @Test
-    public void AbOutTest() {
-        mainPage.abOutMenuItem();
-
+        Assert.assertTrue(mainPage.TimeStampsUnique(), "There is non-unique TimeStamp");
     }
 }

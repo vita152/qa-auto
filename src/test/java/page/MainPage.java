@@ -1,14 +1,19 @@
 package page;
 
+
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
@@ -45,11 +50,16 @@ public class MainPage extends BasePage {
     private List<WebElement> incidentsList;
     @FindBy(xpath = "//div[@class='modal-content']")
     private WebElement modalcontent;
+    @FindBy(xpath = "//div[@class='cell day']/div [@class='content']")
+    private List<WebElement> incidentTimeStamp;
     @FindBy(xpath = "//div[@class='about-dialog-content']//*[text()='terms of service']")
     private WebElement termsofservice;
+    @FindBy(xpath ="//div [@class='modal-footer']//*[@class='btn btn-primary']")
+    private WebElement close;
+    @FindBy(xpath = "//div[@class='cell day']/div [@class='content']")
+    private WebElement time;
 
-
-    /**
+     /**
      * @param period
      * @return
      */
@@ -140,42 +150,99 @@ public class MainPage extends BasePage {
 
     public void openIncidentsList() {
         listButton.click();
-        waitUntilElementClickable(incidentsList.get(1), 5);
+        waitUntilElementClickable(incidentsList.get(1), 10);
     }
 
-    public List<String> getIncidentCardsCities() {
-        List<String> listCities = new ArrayList<String>();
+//    public List<String> getIncidentCardsCities() {
+//        List<String> listCities = new ArrayList<String>();
+//        for (WebElement incidentCard : incidentsList) {
+//            String cityText = incidentCard.findElement(By.xpath("//div[@class='city S']")).getText();
+//            listCities.add(cityText);
+//        }
+//        return listCities;
+//    }
+//
+//    public List<String> getIncidentCardsStreets() {
+//        List<String> listStreets = new ArrayList<String>();
+//        for (WebElement incidentCard : incidentsList) {
+//            String streetText = incidentCard.findElement(By.xpath("//div[@class='address']")).getText();
+//            listStreets.add(streetText);
+//        }
+//        return listStreets;
+//    }
+//
+//    public List<String> getIncidentCardsTimeStamps() {
+//        List<String> listTimeStamps = new ArrayList<String>();
+//        for (WebElement incidentTimeStamps : incidentsList) {
+//            String TimeStampsText = incidentTimeStamps.findElement(By.xpath("//div[@class='cell day']/div [@class='content']")).getText();
+//            listTimeStamps.add(TimeStampsText);
+//        }
+//        return listTimeStamps;
+//    }
 
-        for (WebElement incidentCard : incidentsList) {
-            String cityText = incidentCard.findElement(By.xpath("//div[@class='city S']")).getText();
-            listCities.add(cityText);
-        }
-        return listCities;
-    }
-
-    public List<String> getIncidentCardsStreets() {
-        List<String> listStreets = new ArrayList<String>();
-        for (WebElement incidentCard : incidentsList) {
-            String streetText = incidentCard.findElement(By.xpath("//div[@class='address']")).getText();
-            listStreets.add(streetText);
-        }
-        return listStreets;
-    }
-
-    public List<String> getIncidentCardsTimeStamps() {
+    public List<String> getIncidentCards(String detal) {
         List<String> listTimeStamps = new ArrayList<String>();
+        String XpathElement = getIncident(detal);
         for (WebElement incidentTimeStamps : incidentsList) {
-            String TimeStampsText = incidentTimeStamps.findElement(By.xpath("//div[@class='cell day']/div [@class='content']")).getText();
+            String TimeStampsText = incidentTimeStamps.findElement(By.xpath(XpathElement)).getText();
             listTimeStamps.add(TimeStampsText);
         }
         return listTimeStamps;
+    }
+
+    public String getIncident(String detal) {
+        switch (detal.toLowerCase()) {
+            case "time":
+                return "//div[@class='cell day']//div [@class='content']";
+            case "street":
+                return "//div[@class='address']";
+            case "city":
+                return "//div[@class='city S']";
+            default:
+                return "";
+        }
+    }
+
+    /**
+     * @return unique Element incidentTimeStamp true/false
+     */
+    public boolean TimeStampsUnique (){
+        Set incidentTimeStampCount = new HashSet(incidentTimeStamp);
+                if(incidentTimeStampCount.size() == incidentTimeStamp.size()){
+                    return true;
+                }
+                return false;
     }
 
     public void abOutMenuItem() {
         settingIcon.click();
         waitUntilElementDisplaued(settingMenu);
         waitUntilElementClickable(abOutMenuItem, 5).click();
-        termsofservice.click();
-    }
+         }
 
+    public void WebWindoww() {
+        termsofservice.click();
+        String parentWindow = webDriver.getWindowHandle();
+        Set<String> handles = webDriver.getWindowHandles();
+        for (String windowHandle : handles) {
+            if (!windowHandle.equals(parentWindow)) {
+                webDriver.switchTo().window(windowHandle);
+
+                AppsTocPage appsTocPage = new AppsTocPage(webDriver);
+                appsTocPage.isLoaded();
+                Assert.assertEquals(getPageURL(),"http://www.shotspotter.com/apps/tos", "Wrong URL on Apps-Toc page");
+                Assert.assertEquals(appsTocPage.getPageTitle(), "Apps-TOS", "Apps-Toc page page title is wrong");
+
+                webDriver.close();
+                webDriver.switchTo().window(parentWindow);
+                close.click();
+                try {
+                    sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 }
