@@ -50,11 +50,9 @@ public class AppsTocTest {
 
     @Test
     public void AbOutTest() {
-
         MainPage mainPage = new MainPage(webDriver);
         mainPage.abOutMenuItem();
         mainPage.WebWindoww();
-
     }
 
 }

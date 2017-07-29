@@ -1,7 +1,6 @@
 package page;
 
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -54,12 +53,11 @@ public class MainPage extends BasePage {
     private List<WebElement> incidentTimeStamp;
     @FindBy(xpath = "//div[@class='about-dialog-content']//*[text()='terms of service']")
     private WebElement termsofservice;
-    @FindBy(xpath ="//div [@class='modal-footer']//*[@class='btn btn-primary']")
+    @FindBy(xpath = "//div [@class='modal-footer']//*[@class='btn btn-primary']")
     private WebElement close;
-    @FindBy(xpath = "//div[@class='cell day']/div [@class='content']")
-    private WebElement time;
 
-     /**
+
+    /**
      * @param period
      * @return
      */
@@ -148,38 +146,21 @@ public class MainPage extends BasePage {
         return incidentsList.size();
     }
 
+    /**
+     * Click listButton and wait incidentsList
+     */
     public void openIncidentsList() {
         listButton.click();
         waitUntilElementClickable(incidentsList.get(1), 10);
     }
 
-//    public List<String> getIncidentCardsCities() {
-//        List<String> listCities = new ArrayList<String>();
-//        for (WebElement incidentCard : incidentsList) {
-//            String cityText = incidentCard.findElement(By.xpath("//div[@class='city S']")).getText();
-//            listCities.add(cityText);
-//        }
-//        return listCities;
-//    }
-//
-//    public List<String> getIncidentCardsStreets() {
-//        List<String> listStreets = new ArrayList<String>();
-//        for (WebElement incidentCard : incidentsList) {
-//            String streetText = incidentCard.findElement(By.xpath("//div[@class='address']")).getText();
-//            listStreets.add(streetText);
-//        }
-//        return listStreets;
-//    }
-//
-//    public List<String> getIncidentCardsTimeStamps() {
-//        List<String> listTimeStamps = new ArrayList<String>();
-//        for (WebElement incidentTimeStamps : incidentsList) {
-//            String TimeStampsText = incidentTimeStamps.findElement(By.xpath("//div[@class='cell day']/div [@class='content']")).getText();
-//            listTimeStamps.add(TimeStampsText);
-//        }
-//        return listTimeStamps;
-//    }
 
+    /**
+     * Get name Elements in incidentsList and return their text
+     *
+     * @param detal - name Elements in incidentsList
+     * @return Text of the Elements from the List incidentsList
+     */
     public List<String> getIncidentCards(String detal) {
         List<String> listTimeStamps = new ArrayList<String>();
         String XpathElement = getIncident(detal);
@@ -190,6 +171,10 @@ public class MainPage extends BasePage {
         return listTimeStamps;
     }
 
+    /**
+     * @param detal Get name, return xpath
+     * @return xpath for Elements:time/street/city
+     */
     public String getIncident(String detal) {
         switch (detal.toLowerCase()) {
             case "time":
@@ -206,20 +191,26 @@ public class MainPage extends BasePage {
     /**
      * @return unique Element incidentTimeStamp true/false
      */
-    public boolean TimeStampsUnique (){
+    public boolean TimeStampsUnique() {
         Set incidentTimeStampCount = new HashSet(incidentTimeStamp);
-                if(incidentTimeStampCount.size() == incidentTimeStamp.size()){
-                    return true;
-                }
-                return false;
+        if (incidentTimeStampCount.size() == incidentTimeStamp.size()) {
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Open abOutMenuItem(About)
+     */
     public void abOutMenuItem() {
         settingIcon.click();
         waitUntilElementDisplaued(settingMenu);
         waitUntilElementClickable(abOutMenuItem, 5).click();
-         }
+    }
 
+    /**
+     * switch Window handles
+     */
     public void WebWindoww() {
         termsofservice.click();
         String parentWindow = webDriver.getWindowHandle();
@@ -230,19 +221,13 @@ public class MainPage extends BasePage {
 
                 AppsTocPage appsTocPage = new AppsTocPage(webDriver);
                 appsTocPage.isLoaded();
-                Assert.assertEquals(getPageURL(),"http://www.shotspotter.com/apps/tos", "Wrong URL on Apps-Toc page");
+                Assert.assertEquals(getPageURL(), "http://www.shotspotter.com/apps/tos", "Wrong URL on Apps-Toc page");
                 Assert.assertEquals(appsTocPage.getPageTitle(), "Apps-TOS", "Apps-Toc page page title is wrong");
 
                 webDriver.close();
                 webDriver.switchTo().window(parentWindow);
-                close.click();
-                try {
-                    sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
             }
+            close.click();
         }
     }
 }

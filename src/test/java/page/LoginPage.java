@@ -6,8 +6,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
-
-
 /**
  * First page have: login, password, go, ErrorMsg
  */
@@ -27,9 +25,9 @@ public class LoginPage extends BasePage {
 
     /**
      * Constructor LoginPage have:
-     *  super(webDriver),
-     *  init Elements,
-     *  goButton is Displayed.
+     * super(webDriver),
+     * init Elements,
+     * goButton is Displayed.
      *
      * @param webDriver super(webDriver)
      */
@@ -40,11 +38,11 @@ public class LoginPage extends BasePage {
     }
 
     /**
-     *Determine which one Page Object is it (LoginPage or MainPage)
+     * Determine which one Page Object is it (LoginPage or MainPage)
      *
-     * @param userEmail type login
+     * @param userEmail    type login
      * @param userPassword type password
-     * @param <T> unknown Page Object type (LoginPage/MainPage)
+     * @param <T>          unknown Page Object type (LoginPage/MainPage)
      * @return PageObject (LoginPage or MainPage)
      */
     public <T> T login(String userEmail, String userPassword) {
@@ -77,7 +75,7 @@ public class LoginPage extends BasePage {
     }
 
     /**
-     *Common method to get Error Text when write wrong email or password
+     * Common method to get Error Text when write wrong email or password
      *
      * @return Error Text when write wrong email or password
      */

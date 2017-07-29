@@ -7,21 +7,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-
-
 /**
  * BasePage
  *
  * @param
  */
-public class BasePage{
+public class BasePage {
     protected WebDriver webDriver;
 
 
     /**
-     *Constructor BasePage
+     * Constructor BasePage
      *
-     * @param webDriver  webDriver instans
+     * @param webDriver webDriver instans
      */
     public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -46,7 +44,7 @@ public class BasePage{
     }
 
     /**
-     *Waits until element is displayed using specific max timeout and
+     * Waits until element is displayed using specific max timeout and
      * catch Exception when element is not displayed
      *
      * @param element Webelement to wait for
@@ -54,7 +52,7 @@ public class BasePage{
      */
     public boolean isElementDisplayed(WebElement element) {
         try {
-            waitUntilElementDisplaued (element, 3).isDisplayed();
+            waitUntilElementDisplaued(element, 3).isDisplayed();
         } catch (TimeoutException e) {
             return false;
         }
@@ -86,12 +84,12 @@ public class BasePage{
     }
 
     /**
-     *Waits until element is displayed.
+     * Waits until element is displayed.
      *
      * @param element Webelement to wait for
      * @return WebElement after expected condition using specific max timeout
      */
-    public WebElement waitUntilElementDisplaued (WebElement element){
-        return waitUntilElementDisplaued (element, 10);
+    public WebElement waitUntilElementDisplaued(WebElement element) {
+        return waitUntilElementDisplaued(element, 10);
     }
 }

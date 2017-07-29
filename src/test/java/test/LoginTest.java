@@ -1,4 +1,5 @@
 package test;
+
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -19,14 +20,14 @@ public class LoginTest {
     public String Email = "sst.tau@gmail.com";
     public String Password = "P@ssword123";
 
-    @Parameters({ "browser" })
+    @Parameters({"browser"})
 
     /**
      * Open Firefox, (Webdriver init)
      * go to "https://alerts.shotspotter.biz/"
      */
     @BeforeMethod
-    public void beforeMethod(@Optional ("Firefox") String browser) throws InterruptedException{
+    public void beforeMethod(@Optional("Firefox") String browser) throws InterruptedException {
         if (browser.equalsIgnoreCase("Firefox")) {
             FirefoxDriverManager.getInstance().setup();
             webDriver = new FirefoxDriver();
@@ -34,17 +35,16 @@ public class LoginTest {
             ChromeDriverManager.getInstance().setup();
             webDriver = new ChromeDriver();
         }
-       webDriver.navigate().to("https://alerts.shotspotter.biz/");
+        webDriver.navigate().to("https://alerts.shotspotter.biz/");
     }
 
     /**
      * Close window Firefox
      */
     @AfterMethod
-    public  void afterMethod()
-{
-    webDriver.quit();
-}
+    public void afterMethod() {
+        webDriver.quit();
+    }
 
     /**
      * Type right login and password, click "goButton", and get MainPage
@@ -70,7 +70,7 @@ public class LoginTest {
      * Type wrong login and password, click "goButton", and get Error Message
      */
     @Test
-    public void testLoginNegativ(){
+    public void testLoginNegativ() {
 
         LoginPage loginPage = new LoginPage(webDriver);
 
@@ -82,7 +82,7 @@ public class LoginTest {
 
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
         Assert.assertTrue(loginPage.isPageLoaded(), "LoginPage is not loaded");
-        Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(),"Error messege was not displayd on LoginPage");
+        Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(), "Error messege was not displayd on LoginPage");
         Assert.assertEquals(loginPage.getErrormsgText(), "The provided credentials are not correct.", "Invalid Text not correct");
     }
 
@@ -138,6 +138,7 @@ public class LoginTest {
 
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Login URL on Login page");
         Assert.assertTrue(loginPage.isPageLoaded(), "LoginPage is not loaded");
-        Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(),"Error messege was not displayd on LoginPage");
-        Assert.assertEquals(loginPage.getErrormsgText(), Errormsg, "Invalid Text not correct");}
+        Assert.assertTrue(loginPage.invalidCredentialsMsgDisplayed(), "Error messege was not displayd on LoginPage");
+        Assert.assertEquals(loginPage.getErrormsgText(), Errormsg, "Invalid Text not correct");
+    }
 }

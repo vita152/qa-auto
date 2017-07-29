@@ -35,16 +35,15 @@ public class AppsTocPage extends BasePage {
         PageFactory.initElements(webDriver, this);
         waitUntilElementDisplaued(termsOfServiceApp, 10);
     }
+
     /**
-     *  AppsTocPage is Loaded when WebElement termsOfServiceApp is displayed
+     * AppsTocPage is Loaded when WebElement termsOfServiceApp is displayed
      *
      * @return termsOfServiceApp is displayed or not (tru or false)
      */
-    public  boolean isLoaded (){
-        return  waitUntilElementDisplaued(termsOfServiceApp, 15).isDisplayed();
+    public boolean isLoaded() {
+        return waitUntilElementDisplaued(termsOfServiceApp, 15).isDisplayed();
     }
-
-
 
 
 }
