@@ -18,6 +18,7 @@ public class AppsTocTest {
     public WebDriver webDriver;
     public String Email = "denvert1@shotspotter.net";
     public String Password = "Test123!";
+    public AppsTocPage appsTocPage;
 
 
     @Parameters({"browser"})
@@ -50,11 +51,23 @@ public class AppsTocTest {
 
     @Test
     public void AbOutTest() {
-        MainPage mainPage = new MainPage(webDriver);
-        mainPage.abOutMenuItem();
-        mainPage.WebWindoww();
-    }
+        String mainPageWindow;
+        String termsOfServiceWindow;
 
+        MainPage mainPage = new MainPage(webDriver);
+        mainPageWindow=mainPage.getCurrentWindowHandle();
+        mainPage.abOutMenuItem();
+
+        appsTocPage=mainPage.openAppsTocPage();
+        termsOfServiceWindow=appsTocPage.getCurrentWindowHandle();
+
+        Assert.assertEquals(appsTocPage.getPageURL(), "http://www.shotspotter.com/apps/tos", "Wrong URL on Apps-Toc page");
+        Assert.assertEquals(appsTocPage.getPageTitle(), "Apps-TOS", "Apps-Toc page page title is wrong");
+        appsTocPage.closeWindow(termsOfServiceWindow);
+
+        mainPage.switchWindowTo(mainPageWindow);
+        mainPage.closeButton();
+    }
 }
 
 

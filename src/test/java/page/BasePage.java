@@ -1,5 +1,6 @@
 package page;
 
+import com.google.common.collect.Iterables;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -92,4 +93,42 @@ public class BasePage {
     public WebElement waitUntilElementDisplaued(WebElement element) {
         return waitUntilElementDisplaued(element, 10);
     }
+
+    /**
+     * Get current window ID
+     *
+     * @return current window ID
+     */
+    public String getCurrentWindowHandle() {
+        return webDriver.getWindowHandle();
+    }
+
+    /**
+     * Get window ID of last opened window
+     *
+     * @return window ID of last opened window
+     */
+    public String getLastWindowHandle() {
+        return Iterables.getLast(webDriver.getWindowHandles());
+    }
+
+    /**
+     * Switches to next window
+     *
+     * @param windowHandle windowID to switch to
+     */
+    public void switchWindowTo(String windowHandle) {
+        webDriver.switchTo().window(windowHandle);
+    }
+
+    /**
+     * Switches to next window and close it
+     *
+     * @param windowHandle windowID to close
+     */
+    public void closeWindow(String windowHandle) {
+        switchWindowTo(windowHandle);
+        webDriver.close();
+    }
+
 }

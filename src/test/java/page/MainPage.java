@@ -158,12 +158,12 @@ public class MainPage extends BasePage {
     /**
      * Get name Elements in incidentsList and return their text
      *
-     * @param detal - name Elements in incidentsList
+     * @param CartsAtributes - name Elements in incidentsList
      * @return Text of the Elements from the List incidentsList
      */
-    public List<String> getIncidentCards(String detal) {
+    public List<String> getIncidentCardsText(String CartsAtributes) {
         List<String> listTimeStamps = new ArrayList<String>();
-        String XpathElement = getIncident(detal);
+        String XpathElement = getIncident(CartsAtributes);
         for (WebElement incidentTimeStamps : incidentsList) {
             String TimeStampsText = incidentTimeStamps.findElement(By.xpath(XpathElement)).getText();
             listTimeStamps.add(TimeStampsText);
@@ -172,17 +172,17 @@ public class MainPage extends BasePage {
     }
 
     /**
-     * @param detal Get name, return xpath
+     * @param CartsAtributes Get name, return xpath
      * @return xpath for Elements:time/street/city
      */
-    public String getIncident(String detal) {
-        switch (detal.toLowerCase()) {
+    public String getIncident(String CartsAtributes) {
+        switch (CartsAtributes.toLowerCase()) {
             case "time":
-                return "//div[@class='cell day']//div [@class='content']";
+                return ".//div[@class='cell day']//div [@class='content']";
             case "street":
-                return "//div[@class='address']";
+                return ".//div[@class='address']";
             case "city":
-                return "//div[@class='city S']";
+                return ".//div[@class='city S']";
             default:
                 return "";
         }
@@ -205,29 +205,19 @@ public class MainPage extends BasePage {
     public void abOutMenuItem() {
         settingIcon.click();
         waitUntilElementDisplaued(settingMenu);
+    }
+
+    public AppsTocPage openAppsTocPage() {
         waitUntilElementClickable(abOutMenuItem, 5).click();
+        termsofservice.click();
+        webDriver.switchTo().window(getLastWindowHandle());
+        return PageFactory.initElements(webDriver, AppsTocPage.class);
     }
 
     /**
-     * switch Window handles
+     * Close Button
      */
-    public void WebWindoww() {
-        termsofservice.click();
-        String parentWindow = webDriver.getWindowHandle();
-        Set<String> handles = webDriver.getWindowHandles();
-        for (String windowHandle : handles) {
-            if (!windowHandle.equals(parentWindow)) {
-                webDriver.switchTo().window(windowHandle);
-
-                AppsTocPage appsTocPage = new AppsTocPage(webDriver);
-                appsTocPage.isLoaded();
-                Assert.assertEquals(getPageURL(), "http://www.shotspotter.com/apps/tos", "Wrong URL on Apps-Toc page");
-                Assert.assertEquals(appsTocPage.getPageTitle(), "Apps-TOS", "Apps-Toc page page title is wrong");
-
-                webDriver.close();
-                webDriver.switchTo().window(parentWindow);
-            }
-            close.click();
-        }
+    public void closeButton() {
+        close.click();
     }
 }

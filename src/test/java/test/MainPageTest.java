@@ -93,9 +93,9 @@ public class MainPageTest {
         String expectedCity = "Denver";
         mainPage.switchTimeFramePeriod(3);
         mainPage.openIncidentsList();
-        List<String> listCities = mainPage.getIncidentCards("city");
-        List<String> listStreets = mainPage.getIncidentCards("street");
-        List<String> listTimeStamps = mainPage.getIncidentCards("time");
+        List<String> listCities = mainPage.getIncidentCardsText("city");
+        List<String> listStreets = mainPage.getIncidentCardsText("street");
+        List<String> listTimeStamps = mainPage.getIncidentCardsText("time");
 
         for (String elementCity : listCities) {
             Assert.assertEquals(elementCity, expectedCity, "City is not Denver");

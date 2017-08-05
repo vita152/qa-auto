@@ -44,8 +44,6 @@ public class AppsTocPage extends BasePage {
     public boolean isLoaded() {
         return waitUntilElementDisplaued(termsOfServiceApp, 15).isDisplayed();
     }
-
-
 }
 
 
