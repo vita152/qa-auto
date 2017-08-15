@@ -123,6 +123,8 @@ public class MainPageTest {
 
     @Test
     public void testNewNotification ()  throws IOException{
+        String expectedStreet = "YWZ";
+
         String jsonBody = generateStringFromResource("C:\\Vita\\qa-auto\\src\\test\\resouraes\\notificationRequestBody.json");
 
         given().
@@ -133,7 +135,12 @@ public class MainPageTest {
                 then().
                 statusCode(200).
                 body(containsString("incident message is published to queue successfully"));
-    }
+
+        mainPage.switchTimeFramePeriod(3);
+        mainPage.openIncidentsList();
+        List<String> listStreets = mainPage.getIncidentCardsText("street");
+        Assert.assertTrue(listStreets.contains(expectedStreet), "Card with Street name "+expectedStreet+" not found in the List" );
+        }
 
 
 }
