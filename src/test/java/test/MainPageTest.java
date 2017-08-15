@@ -12,7 +12,13 @@ import org.testng.annotations.*;
 import page.LoginPage;
 import page.MainPage;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
 
 
 /**
@@ -108,4 +114,26 @@ public class MainPageTest {
         }
         Assert.assertTrue(mainPage.TimeStampsUnique(), "There is non-unique TimeStamp");
     }
+
+    public String generateStringFromResource(String path) throws IOException {
+
+        return new String(Files.readAllBytes(Paths.get(path)));
+
+    }
+
+    @Test
+    public void testNewNotification ()  throws IOException{
+        String jsonBody = generateStringFromResource("/Users/bmishra/Code_Center/stash/experiments/src/main/resources/Search.json")
+
+        given().
+                contentType("application/json").
+                body(jsonBody).
+                when().
+                post("http://dev/search").
+                then().
+                statusCode(200).
+                body(containsString("true"));
+    }
+
+
 }
