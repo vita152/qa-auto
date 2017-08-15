@@ -123,7 +123,7 @@ public class MainPageTest {
 
     @Test
     public void testNewNotification ()  throws IOException{
-        String jsonBody = generateStringFromResource("/Users/bmishra/Code_Center/stash/experiments/src/main/resources/Search.json")
+        String jsonBody = generateStringFromResource("C:\\Vita\\qa-auto\\src\\test\\resouraes\\notificationRequestBody.json");
 
         given().
                 contentType("application/json").
