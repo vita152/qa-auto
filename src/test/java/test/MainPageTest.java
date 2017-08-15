@@ -129,10 +129,10 @@ public class MainPageTest {
                 contentType("application/json").
                 body(jsonBody).
                 when().
-                post("http://dev/search").
+                post("https://alerts.shotspotter.biz/api/incidents/v2").
                 then().
                 statusCode(200).
-                body(containsString("true"));
+                body(containsString("incident message is published to queue successfully"));
     }
 
 
